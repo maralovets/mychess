@@ -1,6 +1,7 @@
 import pygame
 from board import *
 from b1 import Board
+from sq import Square
 
 
 class Game:
@@ -19,10 +20,10 @@ class Game:
     def show_piece(self, surface):
         for row in range(rows):
             for col in range(columns):
-                if self.board.squares[row][col].has_piece:
+                if self.board.squares[row][col].has_piece():
                     piece = self.board.squares[row][col].piece
 
                     img = pygame.image.load(piece.texture)
                     img_center = col * square_size + square_size//2, row * square_size + square_size//2
-                    piece.texture_rect = img.get_rect(center=img_center)
-                    surface.blit(img, piece.texture_rect)
+                    texture_rect = img.get_rect(center=img_center)
+                    surface.blit(img, texture_rect)

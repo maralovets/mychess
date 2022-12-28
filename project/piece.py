@@ -16,8 +16,8 @@ class Piece:
         self.moves = []
         self.moved = False
         
-    def set_texture(self, size=80):
-        self.texture = os.path.join(f'assets/images/imgs-{size}px/{self.color}_{self.name}.png')
+    def set_texture(self):
+        self.texture = os.path.join(f'assets/images/imgs-80px/{self.color}_{self.name}.png')
 
     def add_moves(self, move):
         self.moves.append(move)
@@ -30,35 +30,35 @@ class Pawn(Piece):
             self.direction = -1
         else:
             self.direction = 1
-        super().__init__('pawn', 'color', 1.0)
+        super().__init__('pawn', color, 1.0)
 
 
 class Knight(Piece):
 
     def __init__(self, color):
-        super().__init__('knight', 'color', 3.0)
+        super().__init__('knight', color, 3.0)
 
 
 class Bishop(Piece):
 
     def __init__(self, color):
-        super().__init__('bishop', 'color', 3.0)
+        super().__init__('bishop', color, 3.0)
 
 
 class Rook(Piece):
 
     def __init__(self, color):
-        super().__init__('rook', 'color', 5.0)
+        super().__init__('rook', color, 5.0)
 
 
 class Queen(Piece):
 
     def __init__(self, color):
-        super().__init__('queen', 'color', 9.0)
+        super().__init__('queen', color, 9.0)
 
 
 class King(Piece):
 
     def __init__(self, color):
-        super().__init__('king', 'color', 100.0)
+        super().__init__('king', color, 100.0)
 
