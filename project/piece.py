@@ -16,8 +16,8 @@ class Piece:
         self.moves = []
         self.moved = False
         
-    def set_texture(self):
-        self.texture = os.path.join(f'assets/images/imgs-80px/{self.color}_{self.name}.png')
+    def set_texture(self, size=80):
+        self.texture = os.path.join(f'assets/images/imgs-{size}px/{self.color}_{self.name}.png')
 
     def add_moves(self, move):
         self.moves.append(move)

@@ -1,13 +1,14 @@
 import pygame
 from board import *
 from b1 import Board
-from sq import Square
+from dr import Dragger
 
 
 class Game:
 
     def __init__(self):
         self.board = Board()
+        self.dragger = Dragger
 
     def show_bg(self, surface):
         for row in range(rows):
