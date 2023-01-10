@@ -2,9 +2,8 @@ import pygame
 import sys
 from board import *
 from game import Game
-
-
-
+from sq import Square
+from move import Move
 
 
 class Main:
@@ -23,25 +22,57 @@ class Main:
 
         while True:
             game.show_bg(screen)
+            game.show_moves(screen)
             game.show_piece(screen)
+            if dragger.dragging:
+                dragger.update_blit(screen)
 
             for event in pygame.event.get():
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    dragger.upd_mouse(self, event.pos)
-                    clicked_row = event.pos[1] // square_size
-                    clicked_col = event.pos[0] // square_size
+                    dragger.update_mouse(event.pos)
+                    clicked_row = dragger.mouseY // square_size
+                    clicked_col = dragger.mouseX // square_size
                     if board.squares[clicked_row][clicked_col].has_piece():
-                        piece = board[clicked_row][clicked_col].piece
-                        dragger.save_init(self, event.pos)
-                        dragger.drag_piece(self, piece)
+                        piece = board.squares[clicked_row][clicked_col].piece
+                        if piece.color == game.next_player:
+                            board.calc_moves(piece, clicked_row, clicked_col)
+                            dragger.save_initial(event.pos)
+                            dragger.drag_piece(piece)
+                            game.show_bg(screen)
+                            game.show_moves(screen)
+                            game.show_piece(screen)
 
                 elif event.type == pygame.MOUSEMOTION:
-                    dragger.upd_mouse(self, event.pos)
-                    dragger.upd_blit(self, screen)
+                    if dragger.dragging:
+                        dragger.update_mouse(event.pos)
+                        game.show_bg(screen)
+                        game.show_moves(screen)
+                        game.show_piece(screen)
+                        dragger.update_blit(screen)
 
                 elif event.type == pygame.MOUSEBUTTONUP:
+                    if dragger.dragging:
+                        dragger.update_mouse(event.pos)
+                        released_row = dragger.mouseY // square_size
+                        released_col = dragger.mouseX // square_size
+                        initial = Square(dragger.initial_row, dragger.initial_col)
+                        final = Square(released_row, released_col)
+                        move = Move(initial, final)
+                        if board.valid_move(dragger.piece, move):
+                            board.moving(dragger.piece, move)
+                            game.show_bg(screen)
+                            game.show_piece(screen)
+                            game.next_turn()
+
                     dragger.undrag_piece()
+
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_x:
+                        game.reset()
+                        game = self.game
+                        board = self.game.board
+                        dragger = self.game.dragger
 
                 elif event.type == pygame.QUIT:
                     pygame.quit()
