@@ -24,7 +24,6 @@ class Game:
             for col in range(columns):
                 if self.board.squares[row][col].has_piece():
                     piece = self.board.squares[row][col].piece
-
                     if piece is not self.dragger.piece:
                         piece.set_texture(size=80)
                         img = pygame.image.load(piece.texture)
